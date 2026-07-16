@@ -8,6 +8,11 @@ grouped by category, with versions where detectable.
 **100% free. No account, no sign-up, no paywall, no "unlock with Pro".**
 Everything runs locally in your browser — no page data ever leaves your machine.
 
+> The fingerprint database and icons come from the open-source
+> [`enthec/webappanalyzer`](https://github.com/enthec/webappanalyzer) project
+> (GPL-3.0). Full credit in **[CREDITS.md](CREDITS.md)**. Chuk Analyzer is not
+> affiliated with the proprietary Wappalyzer product and uses none of its code.
+
 ## Features
 
 - **7,500+ fingerprints** from the community-maintained

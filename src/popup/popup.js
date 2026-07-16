@@ -130,7 +130,12 @@ api.runtime.sendMessage({ type: 'meta' }).then((m) => {
   const f = $('#footer');
   clear(f);
   f.appendChild(el('span', null, m.techCount.toLocaleString() + ' fingerprints'));
-  f.appendChild(el('span', null, 'DB ' + m.generated));
+  const credit = el('a', null, 'data: webappanalyzer');
+  credit.href = 'https://github.com/enthec/webappanalyzer';
+  credit.target = '_blank';
+  credit.rel = 'noopener';
+  credit.title = 'Fingerprint database by enthec/webappanalyzer (GPL-3.0) — DB ' + m.generated;
+  f.appendChild(credit);
 }).catch(() => {});
 
 scan();
