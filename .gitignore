@@ -10,3 +10,6 @@ data/categories.json
 data/groups.json
 data/meta.json
 icons/tech/
+
+# stray harness file
+session.txt
