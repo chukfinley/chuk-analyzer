@@ -11,7 +11,7 @@
 }
 @media (prefers-color-scheme: light) {
   :root {
-    --bg: #ffffff; --bg-elev: #f6f7f9; --bg-row: #ffffff; --border: #e5e7eb;
+    --bg: #ffffff; --bg-elev: #f6f7f9; --bg-row: #f0f1f4; --border: #e5e7eb;
     --text: #14171f; --muted: #6b7280; --chip: #eef0f4; --accent-soft: #6366f11a;
   }
 }
@@ -19,10 +19,10 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
-  width: 360px;
-  max-height: 560px;
+  width: 500px;
+  max-height: 580px;
   overflow-y: auto;
-  font: 13px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font: 13px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -50,38 +50,40 @@ header {
 .menu-list button { display: block; width: 100%; text-align: left; font-size: 13px; padding: 7px 9px; }
 .menu-list button:hover { background: var(--chip); }
 
-.summary { padding: 9px 12px; color: var(--muted); font-size: 12px; border-bottom: 1px solid var(--border); }
+.summary { padding: 8px 12px; color: var(--muted); font-size: 12px; border-bottom: 1px solid var(--border); }
 .summary b { color: var(--text); }
 
-.cat { margin-top: 4px; }
+/* two-column masonry of category blocks */
+#results { columns: 2; column-gap: 8px; padding: 8px; }
+.cat { break-inside: avoid; display: inline-block; width: 100%; margin: 0 0 6px; vertical-align: top; }
 .cat-head {
-  display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px 4px; color: var(--muted);
-  font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: .6px;
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 4px 6px 3px; color: var(--muted);
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
 }
-.cat-head .count { margin-left: auto; font-weight: 500; text-transform: none; letter-spacing: 0; }
+.cat-head .count { margin-left: auto; font-weight: 500; }
 
 .row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 12px; margin: 0 6px 2px; border-radius: 9px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 6px; border-radius: 7px;
   text-decoration: none; color: inherit;
 }
 .row:hover { background: var(--bg-row); }
 .row .ico {
-  width: 22px; height: 22px; flex: 0 0 22px; border-radius: 5px;
+  width: 18px; height: 18px; flex: 0 0 18px; border-radius: 4px;
   object-fit: contain; background: var(--chip);
-  display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted);
+  display: grid; place-items: center; font-size: 10px; font-weight: 700; color: var(--muted);
 }
-.row .name { font-weight: 550; }
+.row .name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row .ver {
-  font-size: 11px; color: var(--accent); background: var(--accent-soft);
-  padding: 1px 6px; border-radius: 20px; font-variant-numeric: tabular-nums;
+  font-size: 10px; color: var(--accent); background: var(--accent-soft);
+  padding: 1px 5px; border-radius: 20px; font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .row .grow { flex: 1; }
 .row .conf { font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.row .imp { font-size: 10px; color: var(--muted); border: 1px solid var(--border); border-radius: 20px; padding: 0 5px; }
+.row .imp { font-size: 9px; color: var(--muted); border: 1px solid var(--border); border-radius: 20px; padding: 0 4px; }
 
-.empty { padding: 40px 16px; text-align: center; color: var(--muted); }
+.empty { padding: 40px 16px; text-align: center; color: var(--muted); column-span: all; }
 
 footer {
   position: sticky; bottom: 0;

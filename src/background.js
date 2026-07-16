@@ -131,6 +131,14 @@ async function analyzeTab(tabId, url) {
 api.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.url) analyzeTab(tabId, tab.url);
 });
+// Pre-warm the cache when switching to a tab, so the popup opens instantly.
+api.tabs.onActivated.addListener(({ tabId }) => {
+  api.tabs.get(tabId).then((tab) => {
+    if (!tab || !tab.url) return;
+    const key = 'tab_' + tabId;
+    api.storage.session.get(key).then((s) => { if (!s[key]) analyzeTab(tabId, tab.url); });
+  }).catch(() => {});
+});
 api.tabs.onRemoved.addListener((tabId) => {
   delete headersByTab[tabId];
   try { api.storage.session.remove('tab_' + tabId); } catch {}

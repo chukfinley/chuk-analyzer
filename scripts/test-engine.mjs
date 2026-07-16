@@ -38,4 +38,10 @@ console.log(`Detected ${res.length}: ${names.join(', ')}`);
 const wp = res.find((t) => t.name === 'WordPress');
 if (!wp || wp.version !== '6.5.2') { console.error('FAIL: WordPress version not resolved'); process.exit(1); }
 if (missing.length) { console.error('FAIL: missing ' + missing.join(', ')); process.exit(1); }
-console.log('OK: core detections + version resolution pass');
+
+// Regression: a blank page (no headers/meta/js) must detect NOTHING. Absent
+// meta/cookie/js keys must never match an empty ("presence") pattern.
+const blank = a.analyze({ url: 'https://example.com/', html: '<html><head></head><body></body></html>' });
+if (blank.length !== 0) { console.error('FAIL: blank page detected ' + blank.map((t) => t.name).join(', ')); process.exit(1); }
+
+console.log('OK: core detections, version resolution, and blank-page regression pass');

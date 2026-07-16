@@ -128,7 +128,11 @@
       const val = ev.cookies[c.toLowerCase()];
       if (val !== undefined) hit(toPatternList(pat), val || 'true');
     }
-    if (t.meta) for (const [m, pat] of Object.entries(t.meta)) hit(toPatternList(pat), (ev.metas[m.toLowerCase()] || []).join(' '));
+    if (t.meta) for (const [m, pat] of Object.entries(t.meta)) {
+      const key = m.toLowerCase();
+      if (!(key in ev.metas)) continue; // absent meta must not match an empty pattern
+      hit(toPatternList(pat), ev.metas[key].join(' '));
+    }
     if (t.scriptSrc) { const ps = toPatternList(t.scriptSrc); for (const s of ev.scriptSrc) hit(ps, s); }
     if (t.scripts) { const ps = toPatternList(t.scripts); for (const s of ev.scriptsText) hit(ps, s); }
     if (t.js) for (const [path, pat] of Object.entries(t.js)) {

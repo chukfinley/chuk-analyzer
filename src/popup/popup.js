@@ -109,15 +109,23 @@ function exportData(fmt) {
 
 // --- wire up ----------------------------------------------------------------
 async function scan() {
-  emptyMsg($('#results'), 'Scanning…');
   const [tab] = await api.tabs.query({ active: true, currentWindow: true });
   if (!tab || !/^https?:/.test(tab.url || '')) {
     $('#summary').textContent = '';
     emptyMsg($('#results'), "This page can't be analyzed.", 'Open a website (http/https).');
     return;
   }
+  // Render the cached result instantly (no flash), then refresh silently.
+  let hadCache = false;
+  try {
+    const key = 'tab_' + tab.id;
+    const cached = (await api.storage.session.get(key))[key];
+    if (cached && cached.techs) { render(cached); hadCache = true; }
+  } catch {}
+  if (!hadCache) emptyMsg($('#results'), 'Scanning…');
+
   const result = await api.runtime.sendMessage({ type: 'analyze', tabId: tab.id, url: tab.url });
-  render(result || { url: tab.url, techs: [], ts: Date.now() });
+  if (result) render(result);
 }
 
 $('#rescan').addEventListener('click', scan);
