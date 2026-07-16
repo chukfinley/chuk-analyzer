@@ -1,0 +1,21 @@
+{
+  "name": "chuk-analyzer",
+  "version": "0.1.0",
+  "description": "Firefox extension that identifies the technologies running on any website.",
+  "type": "commonjs",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "build:db": "node scripts/build-db.mjs",
+    "build": "npm run build:db && web-ext build --overwrite-dest -i node_modules .cache scripts package.json package-lock.json web-ext-artifacts .git .gitignore README.md",
+    "lint": "web-ext lint -i node_modules .cache scripts package.json package-lock.json web-ext-artifacts .git .gitignore README.md",
+    "start": "web-ext run -i node_modules .cache scripts package.json package-lock.json web-ext-artifacts .git .gitignore README.md",
+    "test": "node scripts/test-engine.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "web-ext": "^8.10.0"
+  }
+}

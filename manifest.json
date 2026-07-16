@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Chuk Analyzer",
+  "version": "0.1.0",
+  "description": "Identify the technologies running on any website — CMS, frameworks, servers, analytics, and more. 100% free, no account, no paywall.",
+  "author": "Chuk Development",
+  "homepage_url": "https://github.com/chukfinley/chuk-analyzer",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "chuk-analyzer@chuk.dev",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "icons": {
+    "48": "icons/logo.svg",
+    "96": "icons/logo.svg",
+    "128": "icons/logo.svg"
+  },
+  "permissions": [
+    "webRequest",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["src/engine/analyzer.js", "src/background.js"]
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_title": "Chuk Analyzer",
+    "default_icon": {
+      "16": "icons/logo.svg",
+      "32": "icons/logo.svg",
+      "48": "icons/logo.svg"
+    }
+  }
+}
