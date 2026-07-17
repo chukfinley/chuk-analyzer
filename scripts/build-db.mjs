@@ -31,6 +31,11 @@ function resolveSource() {
     console.log('Cloning webappanalyzer...');
     mkdirSync(dirname(cache), { recursive: true });
     execSync(`git clone --depth 1 ${REPO} "${cache}"`, { stdio: 'inherit' });
+  } else {
+    // Always pull the latest fingerprints from the open dataset.
+    console.log('Updating webappanalyzer to latest...');
+    try { execSync('git fetch --depth 1 origin && git reset --hard origin/HEAD', { cwd: cache, stdio: 'inherit' }); }
+    catch { console.warn('  (update skipped — using cached copy)'); }
   }
   return cache;
 }
