@@ -83,10 +83,11 @@ header {
 }
 .row:hover { background: var(--bg-row); }
 .row .ico {
-  width: 18px; height: 18px; flex: 0 0 18px; border-radius: 4px;
-  object-fit: contain; background: var(--chip);
-  display: grid; place-items: center; font-size: 10px; font-weight: 700; color: var(--muted);
+  width: 20px; height: 20px; flex: 0 0 20px; border-radius: 4px;
+  object-fit: contain; background: #fff; padding: 1px;
+  display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #5b6170;
 }
+.row .ico.letter { background: var(--chip); color: var(--muted); }
 .row .name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row .ver {
   font-size: 10px; color: var(--accent); background: var(--accent-soft);

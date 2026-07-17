@@ -23,19 +23,25 @@ function iconURL(icon) {
   return api.runtime.getURL('icons/tech/' + icon.replace(/\.[^.]+$/, '') + '.webp');
 }
 
+function letterIcon(name) {
+  return el('span', 'ico letter', (name[0] || '?').toUpperCase());
+}
+
 function techRow(t) {
   const a = document.createElement('a');
   a.className = 'row';
   if (t.website) { a.href = t.website; a.target = '_blank'; a.rel = 'noopener'; }
 
-  const ico = document.createElement('img');
-  ico.className = 'ico';
-  ico.width = 22; ico.height = 22; ico.alt = '';
   const url = iconURL(t.icon);
+  let ico;
   if (url) {
+    ico = document.createElement('img');
+    ico.className = 'ico'; ico.alt = '';
     ico.src = url;
-    ico.onerror = () => { const s = document.createElement('span'); s.className = 'ico'; s.textContent = t.name[0]; a.replaceChild(s, ico); };
-  } else { ico.replaceWith(Object.assign(document.createElement('span'), { className: 'ico', textContent: t.name[0] })); }
+    ico.onerror = () => { a.replaceChild(letterIcon(t.name), ico); };
+  } else {
+    ico = letterIcon(t.name);
+  }
   a.appendChild(ico);
 
   const name = document.createElement('span');
