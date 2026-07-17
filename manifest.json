@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Chuk Analyzer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Identify the technologies running on any website — CMS, frameworks, servers, analytics, and more. 100% free, no account, no paywall.",
   "author": "Chuk Development",
   "homepage_url": "https://github.com/chukfinley/chuk-analyzer",

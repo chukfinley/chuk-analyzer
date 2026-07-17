@@ -9,6 +9,7 @@ const analyzer = new self.ChukAnalyzer();
 let ready = null;         // Promise resolving once DB + probe plan are loaded
 let probePlan = null;     // { jsPaths, dom }
 const headersByTab = {};  // tabId -> { lowerHeaderName: "value\nvalue" }
+const scriptsByTab = {};  // tabId -> Set of script request URLs (incl. dynamically loaded)
 
 async function loadDB() {
   const [technologies, categories, groups] = await Promise.all([
@@ -34,6 +35,19 @@ api.webRequest.onHeadersReceived.addListener(
   },
   { urls: ['<all_urls>'], types: ['main_frame'] },
   ['responseHeaders']
+);
+
+// Track script request URLs per tab — catches libraries loaded dynamically
+// after the initial HTML (Wappalyzer sees these too). Reset on new navigation.
+api.webRequest.onBeforeRequest.addListener(
+  (details) => {
+    if (details.tabId < 0) return;
+    if (details.type === 'main_frame') { scriptsByTab[details.tabId] = new Set(); return; }
+    let set = scriptsByTab[details.tabId];
+    if (!set) set = scriptsByTab[details.tabId] = new Set();
+    if (set.size < 500) set.add(details.url);
+  },
+  { urls: ['<all_urls>'], types: ['main_frame', 'script'] }
 );
 
 // --- in-page collector (runs in the MAIN world, serialized to the tab) ------
@@ -115,6 +129,11 @@ async function analyzeTab(tabId, url) {
   if (!page) return null;
 
   page.headers = headersByTab[tabId] || {};
+  const netScripts = scriptsByTab[tabId];
+  if (netScripts && netScripts.size) {
+    const seen = new Set(page.scriptSrc);
+    for (const u of netScripts) if (!seen.has(u)) page.scriptSrc.push(u);
+  }
   const techs = analyzer.analyze(page);
   const result = { url: page.url, techs, ts: Date.now() };
 
@@ -141,6 +160,7 @@ api.tabs.onActivated.addListener(({ tabId }) => {
 });
 api.tabs.onRemoved.addListener((tabId) => {
   delete headersByTab[tabId];
+  delete scriptsByTab[tabId];
   try { api.storage.session.remove('tab_' + tabId); } catch {}
 });
 
