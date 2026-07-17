@@ -50,8 +50,21 @@ for (const file of readdirSync(SRC_TECH).sort()) {
   if (!file.endsWith('.json')) continue;
   Object.assign(tech, JSON.parse(readFileSync(join(SRC_TECH, file), 'utf8')));
 }
+const upstreamCount = Object.keys(tech).length;
+console.log(`Merged ${upstreamCount} technologies from webappanalyzer`);
+
+// Independently-authored supplemental fingerprints (our own work, GPL-3.0).
+// Patterns are derived from each vendor's public first-party domain / open
+// signatures — NOT copied from any proprietary database.
+const extraPath = join(ROOT, 'data', 'extra-technologies.json');
+let extraCount = 0;
+if (existsSync(extraPath)) {
+  const extra = JSON.parse(readFileSync(extraPath, 'utf8'));
+  Object.assign(tech, extra);
+  extraCount = Object.keys(extra).length;
+  console.log(`Merged ${extraCount} supplemental technologies (chuk-authored)`);
+}
 const names = Object.keys(tech);
-console.log(`Merged ${names.length} technologies`);
 
 mkdirSync(join(ROOT, 'data'), { recursive: true });
 writeFileSync(join(ROOT, 'data', 'technologies.json'), JSON.stringify(tech));
@@ -63,6 +76,8 @@ try { commit = execSync('git rev-parse HEAD', { cwd: SRC }).toString().trim(); }
 writeFileSync(join(ROOT, 'data', 'meta.json'), JSON.stringify({
   generated: new Date().toISOString().slice(0, 10),
   techCount: names.length,
+  upstreamCount,
+  extraCount,
   source: 'enthec/webappanalyzer',
   commit,
 }, null, 2));

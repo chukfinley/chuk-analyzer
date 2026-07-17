@@ -30,6 +30,16 @@ engine (`src/engine/analyzer.js`) that reads that format.
 Chuk Analyzer is **not affiliated with, endorsed by, or derived from the
 proprietary Wappalyzer product**. No proprietary Wappalyzer code is used.
 
+## Supplemental fingerprints
+
+`data/extra-technologies.json` contains a small set of fingerprints authored
+independently by this project (Chuk Development). Their detection patterns are
+derived solely from each vendor's **public first-party domain** or **open-source
+signatures** (e.g. a dedicated CDN host, a documented script path, a custom
+element name). They are original work and are **not** copied from any
+proprietary technology-detection database. Licensed GPL-3.0-or-later like the
+rest of the project.
+
 ## This project
 
 - Detection engine, extension, build tooling: Chuk Development.

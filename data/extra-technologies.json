@@ -1,0 +1,159 @@
+{
+  "_hyperscript": {
+    "cats": [59],
+    "description": "_hyperscript is a small scripting language for adding interactivity to web pages, from the author of htmx.",
+    "website": "https://hyperscript.org",
+    "js": { "_hyperscript": "" },
+    "scriptSrc": ["_hyperscript(?:@([\\d.]+))?(?:\\.min)?\\.js\\;version:\\1", "/hyperscript\\.org/"]
+  },
+  "Pagefind": {
+    "cats": [29],
+    "description": "Pagefind is a fully static search library for static sites.",
+    "website": "https://pagefind.app",
+    "scriptSrc": ["/pagefind/pagefind(?:-\\w+)?\\.js"],
+    "dom": ["link[href*='/pagefind/']", "[data-pagefind-body]"]
+  },
+  "Tabler Icons": {
+    "cats": [17],
+    "description": "Tabler Icons is a free open-source set of SVG icons.",
+    "website": "https://tabler.io/icons",
+    "scriptSrc": ["@tabler/icons(?:-webfont)?", "tabler-icons(?:\\.min)?\\.(?:css|js)"],
+    "html": ["<link[^>]+tabler-icons"]
+  },
+  "Odometer.js": {
+    "cats": [59],
+    "description": "Odometer.js is a JavaScript library for smoothly transitioning numbers.",
+    "website": "https://github.com/HubSpot/odometer",
+    "scriptSrc": ["odometer(?:\\.min)?\\.js"],
+    "dom": ["[class~='odometer']"]
+  },
+  "RapiDoc": {
+    "cats": [4],
+    "description": "RapiDoc is a web component for rendering OpenAPI/Swagger documentation.",
+    "website": "https://rapidocweb.com",
+    "dom": ["rapi-doc"],
+    "scriptSrc": ["rapidoc(?:-min)?\\.js", "unpkg\\.com/rapidoc"]
+  },
+  "Material for MkDocs": {
+    "cats": [4, 57],
+    "description": "Material for MkDocs is a documentation theme for the MkDocs static site generator.",
+    "website": "https://squidfunk.github.io/mkdocs-material/",
+    "implies": ["MkDocs"],
+    "meta": { "generator": "mkdocs-material-([\\d.]+)\\;version:\\1" }
+  },
+  "Woosmap": {
+    "cats": [35],
+    "description": "Woosmap is a location and mapping platform for store locators and geolocation.",
+    "website": "https://www.woosmap.com",
+    "js": { "woosmap": "" },
+    "scriptSrc": ["/sdk\\.woosmap\\.com/", "woosmap"],
+    "xhr": ["\\.woosmap\\.com"]
+  },
+  "VdoCipher": {
+    "cats": [14],
+    "description": "VdoCipher is a video hosting platform with DRM protection.",
+    "website": "https://www.vdocipher.com",
+    "scriptSrc": ["\\.vdocipher\\.com/"],
+    "xhr": ["\\.vdocipher\\.com"],
+    "dom": ["iframe[src*='vdocipher.com']"]
+  },
+  "Airwallex": {
+    "cats": [41],
+    "description": "Airwallex is a global payments and financial platform.",
+    "website": "https://www.airwallex.com",
+    "scriptSrc": ["checkout\\.airwallex\\.com", "static\\.airwallex\\.com"],
+    "xhr": ["\\.airwallex\\.com"]
+  },
+  "Xendit": {
+    "cats": [41],
+    "description": "Xendit is a payment gateway for Southeast Asia.",
+    "website": "https://www.xendit.co",
+    "scriptSrc": ["\\.xendit\\.co/"],
+    "xhr": ["\\.xendit\\.co"]
+  },
+  "Supermetrics": {
+    "cats": [10],
+    "description": "Supermetrics is a marketing data and analytics pipeline tool.",
+    "website": "https://supermetrics.com",
+    "xhr": ["\\.supermetrics\\.com"]
+  },
+  "TWIPLA": {
+    "cats": [10],
+    "description": "TWIPLA (formerly Visitor Analytics) is a website intelligence and analytics platform.",
+    "website": "https://www.twipla.com",
+    "scriptSrc": ["\\.twipla\\.com/", "visitor-analytics"],
+    "xhr": ["\\.twipla\\.com"]
+  },
+  "Docebo": {
+    "cats": [21],
+    "description": "Docebo is a cloud-based learning management system.",
+    "website": "https://www.docebo.com",
+    "xhr": ["\\.docebosaas\\.com"],
+    "scriptSrc": ["\\.docebosaas\\.com"]
+  },
+  "Sensei LMS": {
+    "cats": [21],
+    "description": "Sensei LMS is a learning management plugin for WordPress by Automattic.",
+    "website": "https://senseilms.com",
+    "implies": ["WordPress"],
+    "scriptSrc": ["/wp-content/plugins/sensei-lms/"],
+    "html": ["/wp-content/plugins/sensei-lms/"]
+  },
+  "Formbricks": {
+    "cats": [73],
+    "description": "Formbricks is an open-source survey and experience management platform.",
+    "website": "https://formbricks.com",
+    "js": { "formbricks": "" },
+    "scriptSrc": ["\\.formbricks\\.com/", "formbricks"],
+    "xhr": ["\\.formbricks\\.com"]
+  },
+  "Treatwell": {
+    "cats": [72],
+    "description": "Treatwell is an online booking platform for hair and beauty salons.",
+    "website": "https://www.treatwell.com",
+    "scriptSrc": ["\\.treatwell\\.(?:com|net)/"],
+    "xhr": ["\\.treatwell\\."]
+  },
+  "YouCanBookMe": {
+    "cats": [72],
+    "description": "YouCanBookMe is an online appointment scheduling service.",
+    "website": "https://youcanbook.me",
+    "scriptSrc": ["youcanbook\\.me/"],
+    "xhr": ["youcanbook\\.me"],
+    "dom": ["iframe[src*='youcanbook.me']"]
+  },
+  "HappyOrNot": {
+    "cats": [73],
+    "description": "HappyOrNot collects customer and employee feedback via smiley terminals and web widgets.",
+    "website": "https://www.happyornot.com",
+    "scriptSrc": ["happyornot"],
+    "xhr": ["\\.happyornot\\.com"]
+  },
+  "Rackspace": {
+    "cats": [31],
+    "description": "Rackspace is a managed cloud computing and hosting provider.",
+    "website": "https://www.rackspace.com",
+    "scriptSrc": ["\\.rackcdn\\.com/"],
+    "xhr": ["\\.rackcdn\\.com"]
+  },
+  "OpenWeatherMap": {
+    "cats": [19],
+    "description": "OpenWeatherMap provides weather data and forecasts via API.",
+    "website": "https://openweathermap.org",
+    "scriptSrc": ["api\\.openweathermap\\.org"],
+    "xhr": ["api\\.openweathermap\\.org"]
+  },
+  "APILayer": {
+    "cats": [19],
+    "description": "APILayer offers a marketplace of developer APIs (currency, IP, validation, etc.).",
+    "website": "https://apilayer.com",
+    "xhr": ["\\.apilayer\\.com"]
+  },
+  "UpCloud Object Storage": {
+    "cats": [63],
+    "description": "UpCloud Object Storage is an S3-compatible object storage service.",
+    "website": "https://upcloud.com/products/object-storage",
+    "scriptSrc": ["\\.upcloudobjects\\.com/"],
+    "xhr": ["\\.upcloudobjects\\.com"]
+  }
+}
