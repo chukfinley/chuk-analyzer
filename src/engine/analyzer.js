@@ -135,6 +135,8 @@
     }
     if (t.scriptSrc) { const ps = toPatternList(t.scriptSrc); for (const s of ev.scriptSrc) hit(ps, s); }
     if (t.scripts) { const ps = toPatternList(t.scripts); for (const s of ev.scriptsText) hit(ps, s); }
+    if (t.xhr) { const ps = toPatternList(t.xhr); for (const h of ev.xhr) hit(ps, h); }
+    if (t.text && ev.text) hit(toPatternList(t.text), ev.text);
     if (t.js) for (const [path, pat] of Object.entries(t.js)) {
       const val = ev.js[path];
       if (val !== undefined) hit(toPatternList(pat), val || 'true');
@@ -167,7 +169,7 @@
 
   // Full analysis: detect, then resolve implies / excludes / requires.
   Analyzer.prototype.analyze = function (ev) {
-    ev = Object.assign({ url: '', html: '', headers: {}, cookies: {}, metas: {}, scriptSrc: [], scriptsText: [], js: {}, dom: {} }, ev);
+    ev = Object.assign({ url: '', html: '', headers: {}, cookies: {}, metas: {}, scriptSrc: [], scriptsText: [], xhr: [], text: '', js: {}, dom: {} }, ev);
     const detected = {}; // name -> { confidence, version }
 
     for (const [name, t] of Object.entries(this.tech)) {

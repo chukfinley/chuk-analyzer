@@ -10,6 +10,7 @@ let ready = null;         // Promise resolving once DB + probe plan are loaded
 let probePlan = null;     // { jsPaths, dom }
 const headersByTab = {};  // tabId -> { lowerHeaderName: "value\nvalue" }
 const scriptsByTab = {};  // tabId -> Set of script request URLs (incl. dynamically loaded)
+const xhrByTab = {};      // tabId -> Set of XHR/fetch request hostnames
 
 async function loadDB() {
   const [technologies, categories, groups] = await Promise.all([
@@ -42,12 +43,16 @@ api.webRequest.onHeadersReceived.addListener(
 api.webRequest.onBeforeRequest.addListener(
   (details) => {
     if (details.tabId < 0) return;
-    if (details.type === 'main_frame') { scriptsByTab[details.tabId] = new Set(); return; }
-    let set = scriptsByTab[details.tabId];
-    if (!set) set = scriptsByTab[details.tabId] = new Set();
-    if (set.size < 500) set.add(details.url);
+    if (details.type === 'main_frame') { scriptsByTab[details.tabId] = new Set(); xhrByTab[details.tabId] = new Set(); return; }
+    if (details.type === 'script') {
+      let set = scriptsByTab[details.tabId] || (scriptsByTab[details.tabId] = new Set());
+      if (set.size < 500) set.add(details.url);
+    } else { // xmlhttprequest — match fingerprints against the request hostname
+      let set = xhrByTab[details.tabId] || (xhrByTab[details.tabId] = new Set());
+      if (set.size < 500) { try { set.add(new URL(details.url).hostname); } catch {} }
+    }
   },
-  { urls: ['<all_urls>'], types: ['main_frame', 'script'] }
+  { urls: ['<all_urls>'], types: ['main_frame', 'script', 'xmlhttprequest'] }
 );
 
 // --- in-page collector (runs in the MAIN world, serialized to the tab) ------
@@ -58,10 +63,12 @@ function collectPage(jsPaths, domReq) {
     metas: {},
     scriptSrc: [],
     scriptsText: [],
+    text: '',
     cookies: {},
     js: {},
     dom: {},
   };
+  try { out.text = (document.body ? document.body.innerText : '').slice(0, 200000); } catch {}
   try {
     for (const m of document.querySelectorAll('meta[name], meta[property], meta[http-equiv]')) {
       const name = (m.getAttribute('name') || m.getAttribute('property') || m.getAttribute('http-equiv') || '').toLowerCase();
@@ -134,6 +141,7 @@ async function analyzeTab(tabId, url) {
     const seen = new Set(page.scriptSrc);
     for (const u of netScripts) if (!seen.has(u)) page.scriptSrc.push(u);
   }
+  page.xhr = xhrByTab[tabId] ? [...xhrByTab[tabId]] : [];
   const techs = analyzer.analyze(page);
   const result = { url: page.url, techs, ts: Date.now() };
 
@@ -161,6 +169,7 @@ api.tabs.onActivated.addListener(({ tabId }) => {
 api.tabs.onRemoved.addListener((tabId) => {
   delete headersByTab[tabId];
   delete scriptsByTab[tabId];
+  delete xhrByTab[tabId];
   try { api.storage.session.remove('tab_' + tabId); } catch {}
 });
 
