@@ -154,9 +154,13 @@ async function analyzeTab(tabId, url) {
   return result;
 }
 
-// Re-analyze on navigation completion (keeps the badge fresh).
+// Re-analyze on navigation completion (keeps the badge fresh), then once more
+// shortly after to catch libraries loaded lazily after the initial render.
 api.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === 'complete' && tab.url) analyzeTab(tabId, tab.url);
+  if (changeInfo.status === 'complete' && tab.url) {
+    analyzeTab(tabId, tab.url);
+    setTimeout(() => { api.tabs.get(tabId).then((t) => { if (t && t.url) analyzeTab(tabId, t.url); }).catch(() => {}); }, 2500);
+  }
 });
 // Pre-warm the cache when switching to a tab, so the popup opens instantly.
 api.tabs.onActivated.addListener(({ tabId }) => {
